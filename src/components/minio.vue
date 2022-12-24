@@ -3,10 +3,13 @@
   <el-dialog
       title="提示"
       :visible.sync="dialogVisible"
-      width="30%"
-      :before-close="handleClose">
+      width="30%">
     <div class="span">
-      <span v-if="mp3">音乐</span>
+      <span v-if="mp3">
+          <aplayer :audio="audio" :customAudioType="customAudioType" :lrcType="3" />
+      </span>
+
+
       <span v-if="img">
           <div class="block">
               <el-tooltip class="item" effect="dark" content="一键复制直链" placement="top-start">
@@ -23,8 +26,6 @@
     <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
   </span>
   </el-dialog>
-
-
 
   <el-table
       :data="newData.filter(data => !search || data.fileName.toLowerCase().includes(search.toLowerCase()))"
@@ -69,7 +70,12 @@ export default {
       mp3:false,
       img:false,
       url:'',
-      fileName:''
+      fileName:'',
+      audio: {
+        name: 'Let It Go.m3u8',
+        artist: 'Idina Menzel',
+        url: 'https://cdn.moefe.org/music/hls/frozen.m3u8',
+      },
     }
   },
   watch:{
