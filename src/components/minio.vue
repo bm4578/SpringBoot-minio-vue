@@ -142,7 +142,7 @@ export default {
   },
   // 删除文件
   mounted() {
-    axios.get("http://localhost:1266/file").then(resp=>{
+    axios.get("/api").then(resp=>{
       window.localStorage.setItem('data',JSON.stringify(resp.data.data.data))
       this.newData = JSON.parse(window.localStorage.getItem('data'))
     })
