@@ -6,7 +6,11 @@
       width="30%">
     <div class="span">
       <span v-if="mp3">
-          <aplayer :audio="audio" :customAudioType="customAudioType" :lrcType="3" />
+           <aplayer autoplay
+                    mini
+                    :music="audio"
+           />
+        <h1>{{this.audio.title}}</h1>
       </span>
 
 
@@ -60,8 +64,12 @@
 <script>
 import axios from 'axios'
 import {Message} from "element-ui";
+import Aplayer from 'vue-aplayer'
 export default {
   name:'minio',
+  components: {
+    Aplayer
+  },
   data() {
     return {
       newData:[],
@@ -71,16 +79,17 @@ export default {
       img:false,
       url:'',
       fileName:'',
-      audio: {
-        name: 'Let It Go.m3u8',
-        artist: 'Idina Menzel',
-        url: 'https://cdn.moefe.org/music/hls/frozen.m3u8',
+      audio:{
+        title:'',
+        src: '',
       },
     }
   },
   watch:{
-    img(newVal,oldVal){
-
+    dialogVisible(newVal,oldVal){
+      if(!newVal){
+        localStorage.clear();
+      }
     }
   },
   methods: {
@@ -98,12 +107,12 @@ export default {
       }else if (type === 'mp3'){
         this.img= false
         this.mp3 = true
-        console.log(this.mp3)
+        this.audio.src= row.url
+        this.audio.title=row.fileName
+
       }else {
         this.$message.error('错误的文件类型')
       }
-
-
     },
     deleteFile(index, row) {
         this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {

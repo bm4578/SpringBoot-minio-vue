@@ -6,8 +6,9 @@ import store from './store'
 import './plugins/element.js'
 // 一键复制 来源：https://juejin.cn/post/6872972228221206536
 import './plugins/copy.js'
-// 音乐播放器 来源：https://juejin.cn/post/6989045709555105800
-import './plugins/audio.js'
+// 音乐播放器 来源：https://github.com/SevenOutman/vue-aplayer/blob/develop/docs/README.zh-CN.md
+import VueAPlayer from 'vue-aplayer'
+VueAPlayer.disableVersionBadge = true
 
 Vue.config.productionTip = false
 
