@@ -13,7 +13,6 @@
         <h1>{{this.audio.title}}</h1>
       </span>
 
-
       <span v-if="img">
           <div class="block">
               <el-tooltip class="item" effect="dark" content="一键复制直链" placement="top-start">
@@ -144,7 +143,8 @@ export default {
   // 删除文件
   mounted() {
     axios.get("http://localhost:1266/file").then(resp=>{
-      this.newData = resp.data.data.data
+      window.localStorage.setItem('data',JSON.stringify(resp.data.data.data))
+      this.newData = JSON.parse(window.localStorage.getItem('data'))
     })
   },
 }
