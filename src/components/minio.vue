@@ -67,6 +67,7 @@ import {Message} from "element-ui";
 import Aplayer from 'vue-aplayer'
 export default {
   name:'minio',
+  inject: ['reload'],
   components: {
     Aplayer
   },
@@ -88,7 +89,7 @@ export default {
   watch:{
     dialogVisible(newVal,oldVal){
       if(!newVal){
-        localStorage.clear();
+        this.reload();
       }
     }
   },
