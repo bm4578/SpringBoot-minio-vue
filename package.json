@@ -10,6 +10,7 @@
     "axios": "^1.2.1",
     "element-ui": "^2.4.5",
     "vue": "^2.6.14",
+    "vue-aplayer": "^1.6.1",
     "vue-clipboard2": "^0.3.3",
     "vue-router": "^3.5.1",
     "vuex": "^3.6.2"
