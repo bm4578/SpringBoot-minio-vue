@@ -26,7 +26,12 @@
         </span>
 
       <span v-if="mp4">
-
+      <div class="player-container">
+      <vue-core-video-player :src="video.mp4Url" />
+          <el-tooltip class="item" content="一键复制直链" effect="dark" placement="top-start">
+           <el-link type="success" @click="doCopy(video.mp4Url)">{{ video.mp4Name }}</el-link>
+              </el-tooltip>
+      </div>
       </span>
       </div>
 
@@ -55,11 +60,20 @@
         <template slot-scope="scope">
           <el-button
               size="mini"
+              type="primary" plain
               @click="editFile(scope.$index, scope.row)">详情
           </el-button>
+
           <el-button
               size="mini"
-              type="danger"
+              type="success" plain
+              @click="downloadFile(scope.$index, scope.row)">下载
+          </el-button>
+
+
+          <el-button
+              size="mini"
+              type="danger" plain
               @click="deleteFile(scope.$index, scope.row)">删除
           </el-button>
         </template>
@@ -87,6 +101,10 @@ export default {
       mp3: false,
       img: false,
       mp4: false,
+      video: {
+        mp4Url:'',
+        mp4Name:''
+      },
       url: '',
       fileName: '',
       audio: {
@@ -117,13 +135,16 @@ export default {
         this.mp3 = true
         this.audio.src = row.url
         this.audio.title = row.fileName
-      }else if(type === 'mp4' || type ==="MP4" || type === "mov" || type === "mpg" || type === "wmv" || type === "mpeg" || type === "avi" ){
+      }else if(type === 'mp4' || type ==="MP4" || type === "mov" || type === "mpg" || type === "wmv" || type === "mpeg" || type === "avi" || type === "m3u8"){
         this.mp4 = true
+        this.video.mp4Url = row.url
+        this.video.mp4Name = row.fileName
       }
       else {
         this.$message.error('错误的文件类型')
       }
     },
+    //删除文件
     deleteFile(index, row) {
       this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
         confirmButtonText: '确定',
@@ -157,7 +178,28 @@ export default {
         });
       });
     },
-    // url复制
+    //下载文件
+    downloadFile(index,row){
+      axios.get('/api/download',{
+        params: {    // 请求参数拼接在url上
+          fileName: row.fileName
+        },responseType: "blob"
+      }).then(res=>{
+        const type = String(row.fileName.split('.').slice(-1));
+        let blob = new Blob([res.data], {
+          type: type //这里需要根据不同的文件格式写不同的参数
+        });
+        let eLink = document.createElement("a");
+        eLink.download = row.fileName; //这里需要自己给下载的文件命名
+        eLink.style.display = "none";
+        eLink.href = URL.createObjectURL(blob);
+        document.body.appendChild(eLink);
+        eLink.click();
+        URL.revokeObjectURL(eLink.href);
+        document.body.removeChild(eLink);
+      })
+    },
+    //一键复制
     doCopy: function (val) {
       this.$copyText(val).then(function (e) {
         Message.success("内容已复制到剪切板，即刻分享好友吧！！！")
@@ -166,7 +208,10 @@ export default {
       })
     }
   },
-  // 删除文件
+
+  /**
+   * 查询列表
+   */
   mounted() {
     axios.get("/api").then(resp => {
       window.localStorage.setItem('data', JSON.stringify(resp.data.data.data))
