@@ -5,10 +5,11 @@
         drag
         :action='this.urlImg'
         :show-file-list="false"
+        :before-upload="beforeAvatarUpload"
         :on-success="handleAvatarSuccess">
       <i class="el-icon-upload"></i>
       <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-      <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+      <div class="el-upload__tip" slot="tip">不可以上传视频</div>
     </el-upload>
   </div>
 
@@ -26,20 +27,17 @@ export default {
   },
   methods:{
     beforeAvatarUpload(file) {
-      const isJPG = file.type === 'mp4';
-      const isLt2M = file.size / 1024 / 1024 < 10;
-      if (isJPG) {
-        this.$message.error('不能上传视频');
+      const isLt = file.size / 1024 / 1024 < 100;
+      if (!isLt) {
+        this.$message.error('上传大小不能超过 100MB!');
       }
-      if (!isLt2M) {
-        this.$message.error('上传大小不能超过 10MB!');
-      }
-      return  isLt2M;
+      return isLt;
     },
     //成功之后
     handleAvatarSuccess(res, file) {
-      this.$message.success("上传成功"+res.name)
-      console.log(res.errno)
+      this.$message.success("上传成功"+file.name)
+      console.log(res)
+      router.replace({name:'minio'})
     },
   }
 }

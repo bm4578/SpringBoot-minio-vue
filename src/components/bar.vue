@@ -12,19 +12,9 @@
 <script>
 export default {
   name: "bar",
-  data(){
-    return{
-      items: [
-        {tab: '首页', url: 'list'}
-      ]
-    }
-  }
 }
 </script>
 
 <style scoped>
-.app{
-  font-size: 24px;
-}
 
 </style>

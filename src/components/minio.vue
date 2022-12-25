@@ -10,7 +10,9 @@
                     mini
                     :music="audio"
            />
-        <h1>{{this.audio.title}}</h1>
+              <el-tooltip class="item" effect="dark" content="一键复制直链" placement="top-start">
+           <el-link type="success" @click="doCopy(audio.src)">{{audio.title}}</el-link>
+              </el-tooltip>
       </span>
 
       <span v-if="img">
@@ -86,7 +88,7 @@ export default {
     }
   },
   watch:{
-    dialogVisible(newVal,oldVal){
+    dialogVisible(newVal){
       if(!newVal){
         this.reload();
       }
