@@ -122,10 +122,26 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          });
+          axios.delete('/api',{
+            params: {    // 请求参数拼接在url上
+              fileName: row.fileName
+            }
+          }).then(res=>{
+            if (res.data.code === 200){
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              });
+            }else {
+              this.$message({
+                type: 'error',
+                message: '删除失败!'
+              });
+            }
+            //刷新页面
+            this.reload();
+          })
+
         }).catch(() => {
           this.$message({
             type: 'info',
