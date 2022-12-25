@@ -5,6 +5,8 @@
   <el-link type="primary"><router-link :to="{name:'minio'}">所有文件</router-link></el-link>
   <el-divider direction="vertical"></el-divider>
   <el-link type="primary"><router-link :to="{name:'upload'}">上传</router-link></el-link>
+  <el-divider direction="vertical"></el-divider>
+  <el-link type="primary"><router-link :to="{name:'test'}">测试</router-link></el-link>
 </div>
 
 </template>

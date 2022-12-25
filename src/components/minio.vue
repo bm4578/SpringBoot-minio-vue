@@ -1,153 +1,161 @@
 <template>
-<div class="app">
-  <el-dialog
-      title="提示"
-      :visible.sync="dialogVisible"
-      width="30%">
-    <div class="span">
+  <div class="app">
+    <el-dialog
+        :visible.sync="dialogVisible"
+        title="提示"
+        width="30%">
+      <div class="span">
       <span v-if="mp3">
-           <aplayer autoplay
+           <aplayer :music="audio"
+                    autoplay
                     mini
-                    :music="audio"
            />
-              <el-tooltip class="item" effect="dark" content="一键复制直链" placement="top-start">
-           <el-link type="success" @click="doCopy(audio.src)">{{audio.title}}</el-link>
+              <el-tooltip class="item" content="一键复制直链" effect="dark" placement="top-start">
+           <el-link type="success" @click="doCopy(audio.src)">{{ audio.title }}</el-link>
               </el-tooltip>
       </span>
 
       <span v-if="img">
           <div class="block">
-              <el-tooltip class="item" effect="dark" content="一键复制直链" placement="top-start">
-           <el-link type="success" @click="doCopy(url)">{{this.fileName}}</el-link>
-    </el-tooltip>
+              <el-tooltip class="item" content="一键复制直链" effect="dark" placement="top-start">
+                  <el-link type="success" @click="doCopy(url)">{{ this.fileName }}</el-link>
+              </el-tooltip>
             <br>
-    <el-image :src="url"></el-image>
-  </div>
-      </span>
-    </div>
+            <el-image :src="url"></el-image>
+          </div>
+        </span>
 
-    <span slot="footer" class="dialog-footer">
+      <span v-if="mp4">
+
+      </span>
+      </div>
+
+      <span slot="footer" class="dialog-footer">
     <el-button @click="dialogVisible = false">取 消</el-button>
     <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
   </span>
-  </el-dialog>
+    </el-dialog>
 
-  <el-table
-      :data="newData.filter(data => !search || data.fileName.toLowerCase().includes(search.toLowerCase()))"
-      style="width: 100%">
-    <el-table-column
-        label="name"
-        prop="fileName">
-    </el-table-column>
+    <el-table
+        :data="newData.filter(data => !search || data.fileName.toLowerCase().includes(search.toLowerCase()))"
+        style="width: 100%">
+      <el-table-column
+          label="name"
+          prop="fileName">
+      </el-table-column>
 
-    <el-table-column
-        align="right">
-      <template slot="header" slot-scope="scope">
-        <el-input
-            v-model="search"
-            size="mini"
-            placeholder="输入关键字搜索"/>
-      </template>
-      <template slot-scope="scope">
-        <el-button
-            size="mini"
-            @click="editFile(scope.$index, scope.row)">详情</el-button>
-        <el-button
-            size="mini"
-            type="danger"
-            @click="deleteFile(scope.$index, scope.row)">删除</el-button>
-      </template>
-    </el-table-column>
-  </el-table>
-</div>
+      <el-table-column
+          align="right">
+        <template slot="header" slot-scope="scope">
+          <el-input
+              v-model="search"
+              placeholder="输入关键字搜索"
+              size="mini"/>
+        </template>
+        <template slot-scope="scope">
+          <el-button
+              size="mini"
+              @click="editFile(scope.$index, scope.row)">详情
+          </el-button>
+          <el-button
+              size="mini"
+              type="danger"
+              @click="deleteFile(scope.$index, scope.row)">删除
+          </el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+  </div>
 </template>
 
 <script>
 import axios from 'axios'
 import {Message} from "element-ui";
 import Aplayer from 'vue-aplayer'
+
 export default {
-  name:'minio',
+  name: 'minio',
   inject: ['reload'],
   components: {
     Aplayer
   },
   data() {
     return {
-      newData:[],
+      newData: [],
       search: '',
       dialogVisible: false,
-      mp3:false,
-      img:false,
-      url:'',
-      fileName:'',
-      audio:{
-        title:'',
+      mp3: false,
+      img: false,
+      mp4: false,
+      url: '',
+      fileName: '',
+      audio: {
+        title: '',
         src: '',
       },
     }
   },
-  watch:{
-    dialogVisible(newVal){
-      if(!newVal){
+  watch: {
+    dialogVisible(newVal) {
+      if (!newVal) {
         this.reload();
       }
     }
   },
   methods: {
     editFile(index, row) {
-      this.dialogVisible=true
-      var type = String(row.fileName.split('.').slice(-1))
-      if(type === undefined){
+      this.dialogVisible = true
+      const type = String(row.fileName.split('.').slice(-1));
+      if (type === undefined) {
         this.$message.error('错误的文件类型')
       }
-      if (type === 'jpg' || type === 'jpeg' || type === 'gif' || type === 'png' || type === 'bmp'|| type === 'JPG'){
-        this.mp3= false
+      if (type === 'jpg' || type === 'jpeg' || type === 'gif' || type === 'png' || type === 'bmp' || type === 'JPG') {
         this.img = true
         this.url = row.url
         this.fileName = row.fileName
-      }else if (type === 'mp3'){
-        this.img= false
+      } else if (type === 'mp3') {
         this.mp3 = true
-        this.audio.src= row.url
-        this.audio.title=row.fileName
-
-      }else {
+        this.audio.src = row.url
+        this.audio.title = row.fileName
+      }else if(type === 'mp4' || type ==="MP4" || type === "mov" || type === "mpg" || type === "wmv" || type === "mpeg" || type === "avi" ){
+        this.mp4 = true
+      }
+      else {
         this.$message.error('错误的文件类型')
       }
     },
     deleteFile(index, row) {
-        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          axios.delete('/api',{
-            params: {    // 请求参数拼接在url上
-              fileName: row.fileName
-            }
-          }).then(res=>{
-            if (res.data.code === 200){
-              this.$message({
-                type: 'success',
-                message: '删除成功!'
-              });
-            }else {
-              this.$message({
-                type: 'error',
-                message: '删除失败!'
-              });
-            }
-            //刷新页面
-            this.reload();
-          })
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        axios.delete('/api', {
+          params: {    // 请求参数拼接在url上
+            fileName: row.fileName
+          }
+        }).then(res => {
+          if (res.data.code === 200) {
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
+          } else {
+            this.$message({
+              type: 'error',
+              message: '删除失败!'
+            });
+          }
+          //刷新页面
+          this.reload();
+        })
 
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
         });
+      });
     },
     // url复制
     doCopy: function (val) {
@@ -160,8 +168,8 @@ export default {
   },
   // 删除文件
   mounted() {
-    axios.get("/api").then(resp=>{
-      window.localStorage.setItem('data',JSON.stringify(resp.data.data.data))
+    axios.get("/api").then(resp => {
+      window.localStorage.setItem('data', JSON.stringify(resp.data.data.data))
       this.newData = JSON.parse(window.localStorage.getItem('data'))
     })
   },
