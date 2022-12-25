@@ -20,8 +20,11 @@ const routes = [
         path: '/upload',
         name: 'upload',
         component:()=>import("@/components/main/upload")
+      },{
+        path: '/test',
+        name: 'test',
+        component:()=>import("@/components/main/test")
       }
-
     ]
   }
   , {

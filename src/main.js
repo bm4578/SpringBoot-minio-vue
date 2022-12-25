@@ -8,9 +8,13 @@ import './plugins/element.js'
 import './plugins/copy.js'
 // 音乐播放器 来源：https://github.com/SevenOutman/vue-aplayer/blob/develop/docs/README.zh-CN.md
 import VueAPlayer from 'vue-aplayer'
+// 视频播放器 https://github.com/surmon-china/videojs-player
+import './plugins/video.js'
+
 VueAPlayer.disableVersionBadge = true
 
 Vue.config.productionTip = false
+
 
 new Vue({
   router,
