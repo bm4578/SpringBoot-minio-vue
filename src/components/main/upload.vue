@@ -26,7 +26,7 @@ export default {
     return {
       name:"",
       //上传路径
-      urlImg:'/api',
+      urlImg:'/file',
     }
   },
   mounted() {
@@ -46,7 +46,7 @@ export default {
       router.replace({name:'minio'})
     },
     fileError(res,file){
-      this.$message.success("上传失败"+file.name)
+      this.$message.error("上传失败"+file.name)
     }
   }
 }
