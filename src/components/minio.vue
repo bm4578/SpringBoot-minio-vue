@@ -141,7 +141,8 @@ export default {
         this.video.mp4Name = row.fileName
       }
       else {
-        this.$message.error('错误的文件类型')
+        this.dialogVisible = false
+        this.$message.error('未为此类型文件配置解析器，请下载使用')
       }
     },
     //删除文件

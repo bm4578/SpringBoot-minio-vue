@@ -4472,6 +4472,11 @@ vue-aplayer@^1.6.1:
   resolved "https://registry.npmmirror.com/vue-aplayer/-/vue-aplayer-1.6.1.tgz#17fd419b091e09425bc737fa9e84f55565160df6"
   integrity sha512-c+ZAwZ63bVDsKkcHeKLAonIL2gY4nrVRdKypoPRXSkh+8B1cVhFT2tx8HSTNT6eX6WZyDtaYrEJfcgetrfvcdQ==
 
+vue-axios@^3.5.2:
+  version "3.5.2"
+  resolved "https://registry.npmmirror.com/vue-axios/-/vue-axios-3.5.2.tgz#28637524cca550a9e97197e85a41930ec63604d5"
+  integrity sha512-GP+dct7UlAWkl1qoP3ppw0z6jcSua5/IrMpjB5O8bh089iIiJ+hdxPYH2NPEpajlYgkW5EVMP95ttXWdas1O0g==
+
 vue-cli-plugin-element@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npmjs.org/vue-cli-plugin-element/-/vue-cli-plugin-element-1.0.1.tgz"
