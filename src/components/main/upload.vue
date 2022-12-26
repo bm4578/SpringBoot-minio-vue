@@ -30,7 +30,7 @@ export default {
     }
   },
   mounted() {
-    axios.get("/api")
+    axios.get("/file")
   },
   methods:{
     beforeAvatarUpload(file) {

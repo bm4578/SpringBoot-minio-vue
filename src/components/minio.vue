@@ -152,7 +152,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        axios.delete('/api', {
+        axios.delete('/file', {
           params: {    // 请求参数拼接在url上
             fileName: row.fileName
           }
@@ -181,7 +181,7 @@ export default {
     },
     //下载文件
     downloadFile(index,row){
-      axios.get('/api/download',{
+      axios.get('/file/download',{
         params: {    // 请求参数拼接在url上
           fileName: row.fileName
         },responseType: "blob"
@@ -214,7 +214,7 @@ export default {
    * 查询列表
    */
   mounted() {
-    axios.get("/api").then(resp => {
+    axios.get("/file").then(resp => {
       window.localStorage.setItem('data', JSON.stringify(resp.data.data.data))
       this.newData = JSON.parse(window.localStorage.getItem('data'))
     })
