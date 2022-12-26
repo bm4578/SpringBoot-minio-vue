@@ -16,7 +16,6 @@ import './plugins/video.js'
 
 Vue.config.productionTip = false
 
-
 new Vue({
   router,
   store,

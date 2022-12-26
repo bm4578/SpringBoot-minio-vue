@@ -10,16 +10,16 @@ const routes = [
     path: '/',
     name: 'home',
     component: Home,
-    redirect:'/minio',
+    redirect:'/upload',
     children:[
       {
-        path: '/minio',
-        name: 'minio',
-        component:minio
-      }, {
         path: '/upload',
         name: 'upload',
         component:()=>import("@/components/main/upload")
+      }, {
+        path: '/minio',
+        name: 'minio',
+        component:minio
       },{
         path: '/test',
         name: 'test',
