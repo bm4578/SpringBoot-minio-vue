@@ -223,5 +223,9 @@ export default {
 </script>
 
 <style scoped>
-
+@media screen and (max-width: 960px) {
+  .delete {
+    display: none;
+  }
+}
 </style>
