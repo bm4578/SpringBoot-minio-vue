@@ -72,6 +72,7 @@
 
 
           <el-button
+              class="delete"
               size="mini"
               type="danger" plain
               @click="deleteFile(scope.$index, scope.row)">删除
@@ -223,5 +224,9 @@ export default {
 </script>
 
 <style scoped>
-
+@media screen and (max-width: 960px) {
+  .delete {
+    display: none;
+  }
+}
 </style>

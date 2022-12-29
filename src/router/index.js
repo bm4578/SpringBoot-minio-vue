@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from "@/views/home";
 import minio from "@/components/minio";
+import NotFound from "@/views/NotFound";
 
 Vue.use(VueRouter)
 
@@ -26,6 +27,10 @@ const routes = [
         component:()=>import("@/components/main/test")
       }
     ]
+  },
+  {
+    path: '*',
+    component: NotFound
   }
 ]
 

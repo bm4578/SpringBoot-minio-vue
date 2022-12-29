@@ -11,11 +11,13 @@
 
 <script>
 import Bar from "@/components/bar";
+import Upload from "@/components/main/upload";
 export default {
   name: "home",
-  components: {Bar},
+  components: {Upload, Bar},
   comments:{
-    Bar:()=>{import("@/components/bar")}
+    Bar:()=>{import("@/components/bar")},
+    upload:()=>{import("@/components/main/upload")}
   },
 
   //刷新白屏
