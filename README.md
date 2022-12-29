@@ -1,5 +1,3 @@
-# minio
-
 ## Project setup
 ```
 yarn install
