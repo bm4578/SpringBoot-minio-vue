@@ -72,6 +72,7 @@
 
 
           <el-button
+              class="delete"
               size="mini"
               type="danger" plain
               @click="deleteFile(scope.$index, scope.row)">删除
