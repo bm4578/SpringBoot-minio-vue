@@ -14,10 +14,9 @@ import Bar from "@/components/bar";
 import Upload from "@/components/main/upload";
 export default {
   name: "home",
-  components: {Upload, Bar},
+  components: {Bar},
   comments:{
-    Bar:()=>{import("@/components/bar")},
-    upload:()=>{import("@/components/main/upload")}
+    Bar:()=>{import("@/components/bar")}
   },
 
   //刷新白屏
